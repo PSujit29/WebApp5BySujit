@@ -8,15 +8,16 @@ EXPOSE 8081
 FROM ://microsoft.com AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["WebApp5BySujit/WebApp5BySujit.csproj", "WebApp5BySujit/"]
-RUN dotnet restore "./WebApp5BySujit/WebApp5BySujit.csproj"
+
+# Copy the local project file and restore dependencies
+COPY ["WebApp5BySujit.csproj", "./"]
+RUN dotnet restore "WebApp5BySujit.csproj"
 COPY . .
-WORKDIR "/src/WebApp5BySujit"
-RUN dotnet build "./WebApp5BySujit.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "WebApp5BySujit.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./WebApp5BySujit.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "WebApp5BySujit.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Stage 4: Execution assembly
 FROM base AS final
