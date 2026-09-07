@@ -14,7 +14,6 @@ COPY . .
 WORKDIR "/src/WebApp5BySujit"
 RUN dotnet build "./WebApp5BySujit.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Stage 3: Package preparation
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./WebApp5BySujit.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
